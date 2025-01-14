@@ -1,0 +1,211 @@
+.payment-list-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header Styles */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title h1 {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.add-payment-btn {
+  height: 40px;
+}
+
+.add-payment-btn mat-icon {
+  margin-right: 0.5rem;
+}
+
+/* Filters Card Styles */
+.filters-card {
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.search-field {
+  flex: 1;
+}
+
+.search-field mat-icon {
+  color: #6c757d;
+  margin-right: 0.5rem;
+}
+
+/* Table Styles */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+mat-table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 1rem;
+}
+
+.mat-cell {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: #2c3e50;
+}
+
+/* Payee Info Styles */
+.payee-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.payee-name {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.payee-email {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+/* Amount Styles */
+.amount {
+  font-weight: 500;
+}
+
+.amount.total {
+  color: #2c3e50;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  &.due-now {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  &.pending {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &.overdue {
+    background: #ffebee;
+    color: #c62828;
+  }
+
+  &.completed {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+}
+
+/* Action Buttons Styles */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.table-row:hover .action-buttons {
+  opacity: 1;
+}
+
+/* Empty State Styles */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  color: #6c757d;
+}
+
+.empty-state mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  margin: 0;
+  font-weight: 500;
+}
+
+.empty-state p {
+  margin: 0.5rem 0 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .payment-list-container {
+    padding: 1rem;
+  }
+
+  .filters-container {
+    flex-direction: column;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 0.75rem;
+  }
+
+  .action-buttons {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,118 @@
+<div class="payment-list-container">
+  <!-- Header Section -->
+  <div class="list-header">
+    <div class="header-title">
+      <h1>Payments</h1>
+      <span class="subtitle">Manage your payment records</span>
+    </div>
+    <button mat-raised-button color="primary" class="add-payment-btn"  mat-button routerLink="/payment/add" routerLinkActive="active">
+      <mat-icon>add</mat-icon>
+      Add Payment
+    </button>
+
+    <!-- <button mat-button routerLink="/payment/add" routerLinkActive="active">
+      <span>Add Payment</span>
+    </button> -->
+  </div>
+
+  <!-- Filters Section -->
+  <mat-card class="filters-card">
+    <div class="filters-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search Payee</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearch()" placeholder="Search by name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Payment Status</mat-label>
+        <mat-select [(ngModel)]="statusFilter" (selectionChange)="onFilter()">
+          <mat-option value="">All Statuses</mat-option>
+          <mat-option value="due_now">Due Now</mat-option>
+          <mat-option value="pending">Pending</mat-option>
+          <mat-option value="overdue">Overdue</mat-option>
+          <mat-option value="completed">Completed</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <!-- Table Section -->
+  <div class="table-container mat-elevation-z8">
+    <mat-table [dataSource]="filteredPayments">
+      <!-- Payee Name Column -->
+      <ng-container matColumnDef="payee_name">
+        <mat-header-cell *matHeaderCellDef> Payee Name </mat-header-cell>
+        <mat-cell *matCellDef="let payment">
+          <div class="payee-info">
+            <span class="payee-name">{{ payment.payee_first_name }} {{ payment.payee_last_name }}</span>
+            <span class="payee-email">{{ payment.payee_email }}</span>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Due Amount Column -->
+      <ng-container matColumnDef="due_amount">
+        <mat-header-cell *matHeaderCellDef> Due Amount </mat-header-cell>
+        <mat-cell *matCellDef="let payment">
+          <span class="amount">{{ payment.due_amount | currency: payment.currency }}</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Total Due Column -->
+      <ng-container matColumnDef="total_due">
+        <mat-header-cell *matHeaderCellDef> Total Due </mat-header-cell>
+        <mat-cell *matCellDef="let payment">
+          <span class="amount total">{{ payment.total_due | currency: payment.currency }}</span>
+        </mat-cell>
+      </ng-container>
+
+     <!-- Payment Status Column -->
+     <ng-container matColumnDef="payment_status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let payment">
+        <span class="status-badge" [ngClass]="getStatusClass(payment.payee_payment_status)">
+          {{ payment.payee_payment_status }}
+        </span>
+      </mat-cell>
+    </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let payment">
+          <div class="action-buttons">
+            <button mat-icon-button color="primary" matTooltip="View Details" (click)="onView(payment)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" matTooltip="Edit Payment" (click)="onEdit(payment)" disabled="{{payment.payee_payment_status === 'completed'}}">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" matTooltip="Delete Payment" (click)="onDelete(payment)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></mat-row>
+    </mat-table>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredPayments.length === 0" class="empty-state">
+      <mat-icon>payments</mat-icon>
+      <h3>No Payments Found</h3>
+      <p>Try adjusting your search or filter criteria</p>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator 
+      [length]="totalRecords" 
+      [pageSize]="pageSize" 
+      [pageIndex]="currentPage - 1"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</div>

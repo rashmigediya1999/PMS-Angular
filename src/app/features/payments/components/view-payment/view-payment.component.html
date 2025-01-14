@@ -1,0 +1,170 @@
+<div class="view-payment-container">
+  <mat-card class="payment-details-card">
+    <mat-card-header>
+      <div class="header-content">
+        <button mat-icon-button color="primary" class="back-button" routerLink="/payments" routerLinkActive="active">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="title-section">
+          <h1>Payment Details</h1>
+          <p class="payment-id">Payment ID: {{payment?._id}}</p>
+        </div>
+        <div class="status-badge" [ngClass]="payment?.payee_payment_status?.toLowerCase()">
+          {{payment?.payee_payment_status || 'Pending'}}
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Personal Information Section -->
+      <div class="info-section">
+        <div class="section-header">
+          <mat-icon>person</mat-icon>
+          <h2>Personal Information</h2>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>First Name</label>
+            <p>{{payment?.payee_first_name}}</p>
+          </div>
+          <div class="info-item">
+            <label>Last Name</label>
+            <p>{{payment?.payee_last_name}}</p>
+          </div>
+          <div class="info-item">
+            <label>Phone Number</label>
+            <p>{{payment?.payee_phone_number}}</p>
+          </div>
+          <div class="info-item">
+            <label>Email</label>
+            <p>{{payment?.payee_email}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address Details Section -->
+      <div class="info-section">
+        <div class="section-header">
+          <mat-icon>location_on</mat-icon>
+          <h2>Address Details</h2>
+        </div>
+        <div class="info-grid">
+          <div class="info-item full-width">
+            <label>Address Line 1</label>
+            <p>{{payment?.payee_address_line_1}}</p>
+          </div>
+          <div class="info-item full-width">
+            <label>Address Line 2</label>
+            <p>{{payment?.payee_address_line_2}}</p>
+          </div>
+          <div class="info-item">
+            <label>City</label>
+            <p>{{payment?.payee_city}}</p>
+          </div>
+          <div class="info-item">
+            <label>Province/State</label>
+            <p>{{payment?.payee_province_or_state}}</p>
+          </div>
+          <div class="info-item">
+            <label>Country</label>
+            <p>{{payment?.payee_country}}</p>
+          </div>
+          <div class="info-item">
+            <label>Postal Code</label>
+            <p>{{payment?.payee_postal_code}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Details Section -->
+      <div class="info-section">
+        <div class="section-header">
+          <mat-icon>payment</mat-icon>
+          <h2>Payment Details</h2>
+        </div>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Added Date</label>
+            <p>{{payment?.payee_added_date_utc | date:'MMM d, y, h:mm a'}}</p>
+          </div>
+          <div class="info-item">
+            <label>Due Date</label>
+            <p>{{payment?.payee_due_date | date:'MMM d, y, h:mm a'}}</p>
+          </div>
+          <div class="info-item">
+            <label>Currency</label>
+            <p>{{payment?.currency}}</p>
+          </div>
+          <div class="info-item">
+            <label>Due Amount</label>
+            <p class="amount">{{payment?.due_amount | currency:payment?.currency:'symbol':'1.2-2'}}</p>
+          </div>
+          <div class="info-item">
+            <label>Discount</label>
+            <p>{{payment?.discount_percent}}%</p>
+          </div>
+          <div class="info-item">
+            <label>Tax</label>
+            <p>{{payment?.tax_percent}}%</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="evidence-section" *ngIf="payment?.payee_payment_status === 'completed'">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon class="header-icon">description</mat-icon>
+              Payment Evidence
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <a mat-raised-button 
+               color="primary"
+               (click)="downloadEvidence()"
+               target="_blank" 
+               download
+               class="download-button">
+              <mat-icon>file_download</mat-icon>
+              <span>Download Evidence</span>
+            </a>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Payment Summary Section -->
+      <div class="summary-section">
+        <div class="summary-grid">
+          <div class="summary-item">
+            <label>Subtotal</label>
+            <p>{{payment?.due_amount | currency:payment?.currency:'symbol':'1.2-2'}}</p>
+          </div>
+          <div class="summary-item">
+            <label>Discount</label>
+            <p class="discount">-{{(payment?.due_amount ?? 0) * (payment?.discount_percent ?? 0) / 100 | currency:payment?.currency:'symbol':'1.2-2'}}</p>
+          </div>
+          <div class="summary-item">
+            <label>Tax</label>
+            <p>{{(((payment?.due_amount ?? 0) - ((payment?.due_amount ?? 0) * (payment?.discount_percent ?? 0) / 100)) * (payment?.tax_percent ?? 0) / 100) | currency:payment?.currency:'symbol':'1.2-2'}}</p>
+          </div>
+          <div class="summary-item total">
+            <label>Total Amount</label>
+            <p>{{payment?.total_due | currency:payment?.currency:'symbol':'1.2-2'}}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <!-- <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="printPayment()">
+        <mat-icon>print</mat-icon>
+        Print
+      </button>
+      <button mat-raised-button color="accent" (click)="downloadPDF()">
+        <mat-icon>download</mat-icon>
+        Download PDF
+      </button>
+    </mat-card-actions> -->
+  </mat-card>
+</div>
