@@ -8,7 +8,7 @@ import { Payment } from '../models/payment.model';
 })
 export class PaymentService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api/v1'; // Replace with your API URL
+  private apiUrl = 'https://pms-backend-ae27b8115c4a.herokuapp.com/api/v1'; // Replace with your API URL
   
   constructor(private http: HttpClient) { }
 
