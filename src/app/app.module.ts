@@ -25,7 +25,7 @@ import { ViewPaymentComponent } from './features/payments/components/view-paymen
 import { AddPaymentComponent } from './features/payments/components/add-payment/add-payment.component';
 import { EditPaymentComponent } from './features/payments/components/edit-payment/edit-payment.component';
 import { DeleteConfirmationDialogComponent } from './features/payments/components/delete-confirmation-dialog';
-
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +58,7 @@ import { DeleteConfirmationDialogComponent } from './features/payments/component
     MatToolbarModule,
     MatCardModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

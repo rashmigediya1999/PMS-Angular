@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { MatSnackBar } from '@angular/material/snack-bar';  
-import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-edit-payment',
   templateUrl: './edit-payment.component.html',
@@ -28,7 +28,8 @@ export class EditPaymentComponent implements OnInit {
     private paymentService: PaymentService,  
     private snackBar: MatSnackBar, 
     private activatedRoute: ActivatedRoute,  // Inject ActivatedRoute to get the URL parameters
-    private router: Router 
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -189,9 +190,9 @@ export class EditPaymentComponent implements OnInit {
       let updatedPaymentData = this.paymentForm.value;
       updatedPaymentData = {
         ...updatedPaymentData,
-        payee_due_date : moment(updatedPaymentData.payee_due_date).format('YYYY-MM-DDTHH:mm:ss[Z]') 
+        payee_due_date : this.datePipe.transform(updatedPaymentData.payee_due_date, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\'')
       }
-      
+      console.log(updatedPaymentData)
       // Check if the status is 'completed' and evidence is provided
       if (updatedPaymentData.payee_payment_status === 'completed' && !this.selectedFile) {
       
